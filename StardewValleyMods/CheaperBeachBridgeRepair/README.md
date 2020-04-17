@@ -1,7 +1,6 @@
-# Casks Everywhere
+# Cheaper Beach Bridge Repair
 
-
-See [This link](http://www.nexusmods.com/stardewvalley/mods/0000) for the NexusMods mod page, which has a description, screenshots, and a download of the built mod.
+See [This link](http://www.nexusmods.com/stardewvalley/mods/5826) for the NexusMods mod page, which has a description, screenshots, and a download of the built mod.
 
 ## How it works
 
