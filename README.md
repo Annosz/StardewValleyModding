@@ -1,4 +1,4 @@
-# Stardew Valley Mods
+# Stardew Valley Modding
 This repo contains the mods I've created for Stardew Valley. Each folder contains some more information and a link to the NexusMods page for downloads. See [my NexusMods profile](https://www.nexusmods.com/users/44734342?tab=user+files) for an other view of the mods I've created.
 
 ## Overview
