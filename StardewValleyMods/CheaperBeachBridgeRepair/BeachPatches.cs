@@ -9,7 +9,6 @@ namespace CheaperBeachBridgeRepair
     {
         private static IMonitor Monitor;
 
-        // call this method from your Entry class
         public static void Initialize(IMonitor monitor)
         {
             Monitor = monitor;
