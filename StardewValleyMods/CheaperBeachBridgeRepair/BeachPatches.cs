@@ -57,7 +57,7 @@ namespace CheaperBeachBridgeRepair
             }
             catch (Exception ex)
             {
-                Monitor.Log($"Failed in {nameof(AnswerDialogueAction_Prefix)}:\n{ex}", LogLevel.Error);
+                Monitor.Log($"Failed in {nameof(checkAction_Prefix)}:\n{ex}", LogLevel.Error);
                 return true;
             }
         }
