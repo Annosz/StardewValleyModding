@@ -2,10 +2,14 @@
 using StardewValley;
 using StardewValley.Tools;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SleeplessFisherman
 {
-    class CharacterPatches
+    class FarmerPatches
     {
         private static IMonitor Monitor;
 
@@ -14,12 +18,12 @@ namespace SleeplessFisherman
             Monitor = monitor;
         }
 
-        public static bool doEmote_Prefix(Character __instance, int whichEmote, bool playSound, bool nextEventCommand = true)
+        public static bool doEmote_Prefix(Farmer __instance, int whichEmote)
         {
             try
             {
-                if ((__instance is Farmer) && ((__instance as Farmer).CurrentTool is FishingRod) 
-                    && ((__instance as Farmer).CurrentTool as FishingRod).isFishing)
+                if ((__instance is Farmer) && ((__instance as Farmer).CurrentTool is FishingRod)
+                    && ((__instance as Farmer).CurrentTool as FishingRod).isFishing && whichEmote == 24)
                     return false;
                 return true;
             }

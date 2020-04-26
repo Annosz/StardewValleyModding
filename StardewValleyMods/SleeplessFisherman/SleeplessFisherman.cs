@@ -11,8 +11,8 @@ namespace SleeplessFisherman
             var harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
 
             harmony.Patch(
-               original: AccessTools.Method(typeof(StardewValley.Character), nameof(StardewValley.Character.doEmote), new Type[] { typeof(int), typeof(bool), typeof(bool) }),
-               prefix: new HarmonyMethod(typeof(CharacterPatches), nameof(CharacterPatches.doEmote_Prefix))
+                original: AccessTools.Method(typeof(StardewValley.Farmer), nameof(StardewValley.Farmer.doEmote), new Type[] { typeof(int) }),
+                prefix: new HarmonyMethod(typeof(FarmerPatches), nameof(FarmerPatches.doEmote_Prefix))
             );
         }
     }
