@@ -26,7 +26,7 @@ namespace KrobusSellsLargerStacks
             {
                 foreach (var krobusItem in GetKrobusItemsFromConfig(Config))
                 {
-                    var sellable = menu.itemPriceAndStock.FirstOrDefault(kv => (kv.Key as StardewValley.Object).ParentSheetIndex == krobusItem.ItemId);
+                    KeyValuePair<ISalable, int[]>  sellable = GetSellable(menu, krobusItem);
 
                     if (!sellable.Equals(new KeyValuePair<ISalable, int[]>()))
                     {
@@ -37,6 +37,7 @@ namespace KrobusSellsLargerStacks
                         priceAndStock[priceAndStock.Length - 1] = krobusItem.ItemQuantity;
                         menu.itemPriceAndStock[sellableItem] = priceAndStock;
                     }
+
                 }
             }
         }
@@ -50,10 +51,34 @@ namespace KrobusSellsLargerStacks
                 switch (property.Name)
                 {
                     case "DarkEssenceQuantity":
-                        krobusItems.Add(new KrobusItem(769, int.Parse(property.GetValue(modConfig, null)?.ToString())));
+                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 769));
+                        break;
+                    case "SolarEssenceQuantity":
+                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 768));
+                        break;
+                    case "SlimeQuantity":
+                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 766));
+                        break;
+                    case "OmniGeodeQuantity":
+                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 749));
                         break;
                     case "MixedSeedsQuantity":
-                        krobusItems.Add(new KrobusItem(770, int.Parse(property.GetValue(modConfig, null)?.ToString())));
+                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 770));
+                        break;
+                    case "IridiumSprinklerQuantity":
+                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 645));
+                        break;
+                    case "BatWingQuantity":
+                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 767));
+                        break;
+                    case "MagnetQuantity":
+                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 703));
+                        break;
+                    case "FishQuantity":
+                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 0, "Fish"));
+                        break;
+                    case "FoodQuantity":
+                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 0, "Cooking"));
                         break;
                     default:
                         break;
@@ -61,6 +86,24 @@ namespace KrobusSellsLargerStacks
             }
 
             return krobusItems;
+        }
+
+        private static KeyValuePair<ISalable, int[]> GetSellable(ShopMenu menu, KrobusItem krobusItem)
+        {
+            KeyValuePair<ISalable, int[]> sellable = new KeyValuePair<ISalable, int[]>();
+
+            try
+            {
+                sellable = menu.itemPriceAndStock.Where(kv => (kv.Key as StardewValley.Object).ParentSheetIndex == krobusItem.ItemId
+                    || (kv.Key as StardewValley.Object).Type == krobusItem.Type).FirstOrDefault();
+
+            }
+            catch (NullReferenceException)
+            {
+                // Item was not found in shop inventory - not a problem as supply changes daily
+            }
+
+            return sellable;
         }
     }
 }

@@ -8,13 +8,15 @@ namespace KrobusSellsLargerStacks
 {
     public class KrobusItem
     {
-        public int ItemId { get; set; }
         public int ItemQuantity { get; set; }
+        public int ItemId { get; set; }
+        public string Type { get; set; }
 
-        public KrobusItem(int itemId, int itemQuantity)
+        public KrobusItem(int itemQuantity, int itemId = 0, string type = "")
         {
-            ItemId = itemId;
             ItemQuantity = itemQuantity;
+            ItemId = itemId;
+            Type = type;
         }
     }
 }
