@@ -4,7 +4,7 @@ namespace HighlightedJars
 {
     public class ModConfig
     {
-        public string HighlightType { get; set; } = "Bubble";
+        public string HighlightType { get; set; } = "Highlight";
 
         public bool HighlightJars { get; set; } = true;
         public bool HighlightKegs { get; set; } = true;
