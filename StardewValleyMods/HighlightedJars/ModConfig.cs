@@ -8,5 +8,6 @@ namespace HighlightedJars
 
         public bool HighlightJars { get; set; } = true;
         public bool HighlightKegs { get; set; } = true;
+        public bool HighlightCasks { get; set; } = true;
     }
 }

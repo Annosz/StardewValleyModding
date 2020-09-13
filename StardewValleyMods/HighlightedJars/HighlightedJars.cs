@@ -43,7 +43,8 @@ namespace HighlightedJars
 
             var highlightableObjects = Game1.currentLocation.objects.Values.Where(o =>
                 ((Config.HighlightJars && (o as StardewValley.Object).parentSheetIndex == 15)
-                    || (Config.HighlightKegs && (o as StardewValley.Object).parentSheetIndex == 12))
+                    || (Config.HighlightKegs && (o as StardewValley.Object).parentSheetIndex == 12)
+                    || (Config.HighlightCasks && (o as StardewValley.Object).parentSheetIndex == 163))
                 && o.minutesUntilReady <= 0 && !o.readyForHarvest
                 ).ToList();
 
