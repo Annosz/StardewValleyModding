@@ -28,6 +28,18 @@ namespace RememberFacedDirection
             }
         }
 
+        public static void Farmer_HoldUpItemThenMessage_Prefix()
+        {
+            try
+            {
+                farmerFacingDirection[Game1.player.UniqueMultiplayerID] = Game1.player.FacingDirection;
+            }
+            catch (Exception ex)
+            {
+                _monitor.Log($"Failed in {nameof(Farmer_HoldUpItemThenMessage_Prefix)}:\n{ex}", LogLevel.Error);
+            }
+        }
+
 
         public static void Farmer_DoneEating_Postfix(StardewValley.Farmer __instance)
         {
@@ -38,6 +50,18 @@ namespace RememberFacedDirection
             catch (Exception ex)
             {
                 _monitor.Log($"Failed in {nameof(Farmer_DoneEating_Postfix)}:\n{ex}", LogLevel.Error);
+            }
+        }
+
+        public static void Farmer_ShowReceiveNewItemMessage_Postfix(StardewValley.Farmer who)
+        {
+            try
+            {
+                who.faceDirection(farmerFacingDirection[who.UniqueMultiplayerID]);
+            }
+            catch (Exception ex)
+            {
+                _monitor.Log($"Failed in {nameof(Farmer_ShowReceiveNewItemMessage_Postfix)}:\n{ex}", LogLevel.Error);
             }
         }
     }
