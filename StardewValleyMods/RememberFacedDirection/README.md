@@ -4,4 +4,4 @@ See [this link](http://www.nexusmods.com/stardewvalley/mods/6946) for the NexusM
 
 ## How it works
 
-The mod uses Harmony to add a prefix to methods starting the direction change (such as the action button or the receiving animation for a special item) and a postfi to methods after the action (such as finishing eating and writing the message connected to the special item). In the first message we save the direction, in the later we set it back for the farmer. 
+The mod uses Harmony to add a prefix to methods starting the direction change (such as the action button or the receiving animation for a special item) and a postfix to methods after the action (such as finishing eating and writing the message connected to the special item). In the first extension we save the direction, in the later we set it back for the farmer. 
