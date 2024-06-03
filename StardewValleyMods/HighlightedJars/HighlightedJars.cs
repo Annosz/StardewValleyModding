@@ -1,13 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
-using Newtonsoft.Json.Linq;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Menus;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace HighlightedJars
@@ -42,10 +39,10 @@ namespace HighlightedJars
                 return;
 
             var highlightableObjects = Game1.currentLocation.objects.Values.Where(o =>
-                ((Config.HighlightJars && (o as StardewValley.Object).parentSheetIndex == 15)
-                    || (Config.HighlightKegs && (o as StardewValley.Object).parentSheetIndex == 12)
-                    || (Config.HighlightCasks && (o as StardewValley.Object).parentSheetIndex == 163))
-                && o.minutesUntilReady <= 0 && !o.readyForHarvest
+                ((Config.HighlightJars && o.ParentSheetIndex == 15)
+                    || (Config.HighlightKegs && o.ParentSheetIndex == 12)
+                    || (Config.HighlightCasks && o.ParentSheetIndex == 163))
+                && o.MinutesUntilReady <= 0 && !o.readyForHarvest.Value
                 ).ToList();
 
             foreach (var highlightableObject in highlightableObjects)
@@ -56,7 +53,7 @@ namespace HighlightedJars
                 switch (Config.HighlightType)
                 {
                     case "Highlight":
-                        e.SpriteBatch.Draw(Game1.bigCraftableSpriteSheet, new Vector2(local.X + 32, local.Y + 32), new Rectangle?(StardewValley.Object.getSourceRectForBigCraftable((int)(NetFieldBase<int, NetInt>)highlightableObject.parentSheetIndex)), Color.Red * 0.50f, 0.0f, new Vector2(8f, 8f), 4f, SpriteEffects.None, (float)((highlightableObject.TileLocation.Y - 1) * 64) / 10000f);
+                        e.SpriteBatch.Draw(Game1.bigCraftableSpriteSheet, new Vector2(local.X + 32, local.Y + 32), new Rectangle?(StardewValley.Object.getSourceRectForBigCraftable(highlightableObject.ParentSheetIndex)), Color.Red * 0.50f, 0.0f, new Vector2(8f, 8f), 4f, SpriteEffects.None, (float)((highlightableObject.TileLocation.Y - 1) * 64) / 10000f);
                         break;
                     case "Bubble":
                     default:

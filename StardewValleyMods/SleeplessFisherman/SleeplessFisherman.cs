@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewModdingAPI;
 using System;
 
@@ -8,7 +8,7 @@ namespace SleeplessFisherman
     {
         public override void Entry(IModHelper helper)
         {
-            var harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
+            var harmony = new Harmony(ModManifest.UniqueID);
 
             harmony.Patch(
                 original: AccessTools.Method(typeof(StardewValley.Farmer), nameof(StardewValley.Farmer.doEmote), new Type[] { typeof(int) }),

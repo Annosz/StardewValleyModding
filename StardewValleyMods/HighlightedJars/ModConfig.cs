@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace HighlightedJars
+﻿namespace HighlightedJars
 {
     public class ModConfig
     {

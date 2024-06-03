@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using StardewModdingAPI;
+﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
@@ -26,15 +25,15 @@ namespace KrobusSellsLargerStacks
             {
                 foreach (var krobusItem in GetKrobusItemsFromConfig(Config))
                 {
-                    KeyValuePair<ISalable, int[]>  sellable = GetSellable(menu, krobusItem);
+                    KeyValuePair<ISalable, ItemStockInformation>  sellable = GetSellable(menu, krobusItem);
 
-                    if (!sellable.Equals(new KeyValuePair<ISalable, int[]>()))
+                    if (!sellable.Equals(new KeyValuePair<ISalable, ItemStockInformation>()))
                     {
                         var sellableItem = sellable.Key;
                         var priceAndStock = sellable.Value;
 
                         sellableItem.Stack = krobusItem.ItemQuantity;
-                        priceAndStock[priceAndStock.Length - 1] = krobusItem.ItemQuantity;
+                        priceAndStock.Stock = krobusItem.ItemQuantity;
                         menu.itemPriceAndStock[sellableItem] = priceAndStock;
                     }
 
@@ -88,9 +87,9 @@ namespace KrobusSellsLargerStacks
             return krobusItems;
         }
 
-        private static KeyValuePair<ISalable, int[]> GetSellable(ShopMenu menu, KrobusItem krobusItem)
+        private static KeyValuePair<ISalable, ItemStockInformation> GetSellable(ShopMenu menu, KrobusItem krobusItem)
         {
-            KeyValuePair<ISalable, int[]> sellable = new KeyValuePair<ISalable, int[]>();
+            KeyValuePair<ISalable, ItemStockInformation> sellable = new KeyValuePair<ISalable, ItemStockInformation>();
 
             try
             {
