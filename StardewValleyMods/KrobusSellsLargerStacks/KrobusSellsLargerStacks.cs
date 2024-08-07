@@ -1,8 +1,6 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewValley;
 using StardewValley.Menus;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,99 +8,58 @@ namespace KrobusSellsLargerStacks
 {
     public class KrobusSellsLargerStacks : Mod
     {
-        private ModConfig Config;
+        private ModConfig config;
+        private bool wasUpdatedToday;
 
         public override void Entry(IModHelper helper)
         {
-            Config = Helper.ReadConfig<ModConfig>();
+            config = Helper.ReadConfig<ModConfig>();
 
             helper.Events.Display.MenuChanged += OnMenuChanged;
+            helper.Events.GameLoop.DayStarted += OnDayStarted;
+        }
+
+        private void OnDayStarted(object sender, DayStartedEventArgs e)
+        {
+            wasUpdatedToday = false;
         }
 
         private void OnMenuChanged(object sender, MenuChangedEventArgs e)
         {
-            if (e.NewMenu is ShopMenu menu && Game1.currentLocation.Name == "Sewer")
+            if (!wasUpdatedToday && e.NewMenu is ShopMenu menu && menu.ShopId == "ShadowShop")
             {
-                foreach (var krobusItem in GetKrobusItemsFromConfig(Config))
+                var krobusItems = GetKrobusItemsFromConfig(config);
+                var matches = krobusItems
+                    .Join(
+                        menu.itemPriceAndStock,
+                        i => i.QualifiedItemId,
+                        i => i.Key.QualifiedItemId,
+                        (k, i) => (key: i.Key, krobusItem: k, shopItem: i.Value))
+                    .ToList();
+                foreach (var (key, krobusItem, shopItem) in matches)
                 {
-                    KeyValuePair<ISalable, ItemStockInformation>  sellable = GetSellable(menu, krobusItem);
-
-                    if (!sellable.Equals(new KeyValuePair<ISalable, ItemStockInformation>()))
-                    {
-                        var sellableItem = sellable.Key;
-                        var priceAndStock = sellable.Value;
-
-                        sellableItem.Stack = krobusItem.ItemQuantity;
-                        priceAndStock.Stock = krobusItem.ItemQuantity;
-                        menu.itemPriceAndStock[sellableItem] = priceAndStock;
-                    }
-
+                    var changedItem = shopItem; // Struct, so we have to do this.
+                    changedItem.Stock = krobusItem.ItemQuantity;
+                    menu.itemPriceAndStock[key] = changedItem;
                 }
+                wasUpdatedToday = true;
             }
         }
 
-        public List<KrobusItem> GetKrobusItemsFromConfig(ModConfig modConfig)
+        public static IEnumerable<KrobusItem> GetKrobusItemsFromConfig(ModConfig modConfig)
         {
-            List<KrobusItem> krobusItems = new List<KrobusItem>();
-
-            foreach (var property in modConfig.GetType().GetProperties())
-            {
-                switch (property.Name)
-                {
-                    case "DarkEssenceQuantity":
-                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 769));
-                        break;
-                    case "SolarEssenceQuantity":
-                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 768));
-                        break;
-                    case "SlimeQuantity":
-                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 766));
-                        break;
-                    case "OmniGeodeQuantity":
-                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 749));
-                        break;
-                    case "MixedSeedsQuantity":
-                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 770));
-                        break;
-                    case "IridiumSprinklerQuantity":
-                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 645));
-                        break;
-                    case "BatWingQuantity":
-                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 767));
-                        break;
-                    case "MagnetQuantity":
-                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 703));
-                        break;
-                    case "FishQuantity":
-                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 0, "Fish"));
-                        break;
-                    case "FoodQuantity":
-                        krobusItems.Add(new KrobusItem(int.Parse(property.GetValue(modConfig, null)?.ToString()), 0, "Cooking"));
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            return krobusItems;
-        }
-
-        private static KeyValuePair<ISalable, ItemStockInformation> GetSellable(ShopMenu menu, KrobusItem krobusItem)
-        {
-            KeyValuePair<ISalable, ItemStockInformation> sellable = new KeyValuePair<ISalable, ItemStockInformation>();
-
-            try
-            {
-                sellable = menu.itemPriceAndStock.Where(kv => (kv.Key as StardewValley.Object).ParentSheetIndex == krobusItem.ItemId
-                    || (kv.Key as StardewValley.Object).Type == krobusItem.Type).FirstOrDefault();
-
-            }
-            catch (NullReferenceException)
-            {
-                // Item was not found in shop inventory - not a problem as supply changes daily
-            }
-
-            return sellable;
+            return [
+                new(modConfig.DarkEssenceQuantity, "(O)769"),
+                new(modConfig.SolarEssenceQuantity, "(O)768"),
+                new(modConfig.SlimeQuantity, "(O)766"),
+                new(modConfig.OmniGeodeQuantity, "(O)749"),
+                new(modConfig.MixedSeedsQuantity, "(O)770"),
+                new(modConfig.IridiumSprinklerQuantity, "(O)645"),
+                new(modConfig.BatWingQuantity, "(O)767"),
+                new(modConfig.MagnetQuantity, "(O)703"),
+                new(modConfig.FishQuantity, type: "Fish"),
+                new(modConfig.FoodQuantity, type: "Cooking"),
+            ];
         }
     }
 }
