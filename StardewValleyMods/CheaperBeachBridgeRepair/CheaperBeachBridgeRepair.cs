@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewModdingAPI;
 
 namespace CheaperBeachBridgeRepair
@@ -7,7 +7,7 @@ namespace CheaperBeachBridgeRepair
     {
         public override void Entry(IModHelper helper)
         {
-            var harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
+            var harmony = new Harmony(ModManifest.UniqueID);
             BeachPatches.Initialize(Helper.ReadConfig<ModConfig>(), Monitor);
 
             harmony.Patch(

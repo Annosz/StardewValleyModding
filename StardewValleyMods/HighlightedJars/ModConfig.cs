@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
-
-namespace HighlightedJars
+﻿namespace HighlightedJars
 {
+    public enum HighlightType
+    {
+        Highlight,
+        Bubble,
+    }
+
     public class ModConfig
     {
-        public string HighlightType { get; set; } = "Highlight";
+        public HighlightType HighlightType { get; set; } = HighlightType.Highlight;
 
         public bool HighlightJars { get; set; } = true;
         public bool HighlightKegs { get; set; } = true;

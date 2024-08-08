@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Remember Faced Direction",
   "Author": "Annosz",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Description": "Makes the farmer turn back to his previous direction after eating, getting a special item and other actions.",
   "UniqueID": "Annosz.RememberFacedDirection",
   "EntryDll": "RememberFacedDirection.dll",

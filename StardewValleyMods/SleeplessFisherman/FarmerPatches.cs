@@ -2,10 +2,6 @@
 using StardewValley;
 using StardewValley.Tools;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SleeplessFisherman
 {
@@ -22,8 +18,10 @@ namespace SleeplessFisherman
         {
             try
             {
-                if ((__instance is Farmer) && ((__instance as Farmer).CurrentTool is FishingRod)
-                    && ((__instance as Farmer).CurrentTool as FishingRod).isFishing && whichEmote == 24)
+                if ((__instance is Farmer farmer
+                    && farmer.CurrentTool is FishingRod fishingRod
+                    && fishingRod.isFishing
+                    && whichEmote == 24))
                     return false;
                 return true;
             }

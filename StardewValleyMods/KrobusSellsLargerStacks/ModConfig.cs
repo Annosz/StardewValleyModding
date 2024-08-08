@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace KrobusSellsLargerStacks
+﻿namespace KrobusSellsLargerStacks
 {
     public class ModConfig
     {

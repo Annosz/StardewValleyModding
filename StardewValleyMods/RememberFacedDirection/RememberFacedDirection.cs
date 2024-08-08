@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using StardewModdingAPI;
 
 namespace RememberFacedDirection
@@ -7,7 +7,7 @@ namespace RememberFacedDirection
     {
         public override void Entry(IModHelper helper)
         {
-            var harmony = HarmonyInstance.Create(this.ModManifest.UniqueID);
+            var harmony = new Harmony(ModManifest.UniqueID);
             RememberFacedDirectionPatches.Initialize(Monitor);
 
             harmony.Patch(

@@ -24,7 +24,7 @@ namespace CheaperBeachBridgeRepair
                 {
                     case "BeachBridge_Yes":
                         Game1.globalFadeToBlack(new Game1.afterFadeFunction(__instance.fadedForBridgeFix), 0.02f);
-                        Game1.player.removeItemsFromInventory(388, _config.BridgeRepairPrice);
+                        Game1.player.Items.ReduceId("388", _config.BridgeRepairPrice);
                         __result = true;
                         return false;
                     default:
@@ -44,7 +44,7 @@ namespace CheaperBeachBridgeRepair
             {
                 if (__instance.map.GetLayer("Buildings").Tiles[tileLocation] != null && __instance.map.GetLayer("Buildings").Tiles[tileLocation].TileIndex == 284)
                 {
-                    if (who.hasItemInInventory(388, _config.BridgeRepairPrice, 0))
+                    if (who.Items.ContainsId("388", _config.BridgeRepairPrice))
                     {
                         __instance.createQuestionDialogue(Game1.content.LoadString("Strings\\Locations:Beach_FixBridge_Question").Replace("300", _config.BridgeRepairPrice.ToString()), __instance.createYesNoResponses(), "BeachBridge");
                     }
