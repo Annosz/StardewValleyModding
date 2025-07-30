@@ -15,7 +15,7 @@ namespace RememberFacedDirection
                prefix: new HarmonyMethod(typeof(RememberFacedDirectionPatches), nameof(RememberFacedDirectionPatches.Game1_PressActionButton_Prefix))
             );
             harmony.Patch(
-               original: AccessTools.Method(typeof(StardewValley.Farmer), nameof(StardewValley.Farmer.holdUpItemThenMessage)),
+               original: AccessTools.Method(typeof(StardewValley.Farmer), nameof(StardewValley.Farmer.holdUpItemThenMessage), new[] { typeof(StardewValley.Item), typeof(int), typeof(bool) }),
                prefix: new HarmonyMethod(typeof(RememberFacedDirectionPatches), nameof(RememberFacedDirectionPatches.Farmer_HoldUpItemThenMessage_Prefix))
             );
 
